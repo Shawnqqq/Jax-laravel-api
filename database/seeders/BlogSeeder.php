@@ -20,12 +20,12 @@ class BlogSeeder extends Seeder
         BlogTagGroup::updateOrCreate([ 'name' => '前端', 'sort' => '1']);
         BlogTag::updateOrCreate([
             'group_id' => '1',
-            'name' => 'javascript' ,
+            'name' => 'Html' ,
             'sort' => '1',
             'status' => 1
         ]);
         Blog::updateOrCreate([
-            'title' => '博客一',
+            'title' => '你好，世界',
             'content' => '<p>Hello,World</p>',
             'status' => 1
         ]);

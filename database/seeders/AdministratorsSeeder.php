@@ -15,7 +15,7 @@ class AdministratorsSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::updateOrCreate(['phone' => '17820720720']);
+        $user = User::updateOrCreate(['phone' => '13112808045']);
         $administrator = Administrator::updateOrCreate(['user_id' => $user->id]);
         $role = Role::updateOrCreate([ 'name' => 'admin']);
         $administrator->syncRoles([$role]);
