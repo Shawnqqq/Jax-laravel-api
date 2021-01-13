@@ -3,7 +3,6 @@
 namespace App\Models\Blog;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Blog\BlogType;
 
 class BlogTag extends Model
 {
