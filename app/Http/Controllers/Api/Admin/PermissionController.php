@@ -17,11 +17,14 @@ class PermissionController extends Controller
     }
 
     public function my() {
+        $info = Auth::user();
         $permissions = Auth::user()
             ->administrator()->first()
             ->allPermissions()
             ->pluck('name')
-            ->toArray();
-        return $this->success(compact('permissions'));
+            ->toArray(); 
+        $info -> permissions = $permissions;
+        // compact('permissions')
+        return $this->success($info);
     }
 }
