@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\Web\Auth\AuthEmailLoginRequest;
+use App\Http\Requests\Api\Web\Auth\AuthPhoneLoginRequest;
 use App\Http\Requests\Api\Web\Auth\AuthEmailRegisterRequest;
 use App\Models\User;
 use EasyWeChat\Factory;
@@ -53,6 +54,32 @@ class AuthController extends Controller
         }
         return $this->loginResponse('x', $user, 1);
     }
+
+    public function phoneLogin(AuthPhoneLoginRequest $request) {
+        $user = User::where('phone', $request->phone)->first();
+        if($user) {
+            $flag = app('hash')->check($request->password, $user->password);
+            if (!$flag) {
+                return $this->error(1, '密码错误，请重新尝试');
+            }
+            return $this->loginResponse('x', $user, 1);
+        }
+        $user = User::create([
+            'phone' => $request->phone,
+            'password' => bcrypt($request->password),
+        ]);
+        return $this->loginResponse('x', $user, 1);
+    }
+
+    public function updatePassword(AuthPhoneLoginRequest $request) {
+        $user = User::where('phone', $request ->phone)->first();
+        if(!$user) {
+            return $this->error(1, '该账号不存在');
+        }
+        $user->update(['password' => bcrypt($request->password)]);
+        return $this->success($user);
+    }
+
 
     public function logout() {
         return $this->logoutResponse('x');
